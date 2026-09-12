@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - "fix/**"
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pi-git-install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Simulate Pi git package install without Bun
+        run: npm install --omit=dev
+
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run check-types
+      - run: bun run lint
+      - name: Run cursor regression tests
+        run: >-
+          bun test
+          test/native-block-vim-editor.test.ts
+          test/render.test.ts
+          test/vim-editor.test.ts
+          test/lifecycle.test.ts
+      - run: bun run build
