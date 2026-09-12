@@ -19,5 +19,13 @@ jobs:
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
-      - run: bun run verify
+      - run: bun run check-types
+      - run: bun run lint
+      - name: Run cursor regression tests
+        run: >-
+          bun test
+          test/native-block-vim-editor.test.ts
+          test/render.test.ts
+          test/vim-editor.test.ts
+          test/lifecycle.test.ts
       - run: bun run build
