@@ -41,7 +41,7 @@
     "verify-package": "bun scripts/verify-package.ts",
     "generate:config-reference": "bun scripts/generate-config-reference.ts",
     "check:config-reference": "bun scripts/generate-config-reference.ts --check",
-    "prepublish": "bun run build && bun run verify-package",
+    "prepublishOnly": "bun run build && bun run verify-package",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "oxlint",
@@ -49,7 +49,7 @@
     "test": "bun test",
     "check-types": "tsc --noEmit",
     "verify": "bun run check-types && bun run lint && bun run test",
-    "prepare": "lefthook install"
+    "prepare": "node scripts/prepare.mjs"
   },
   "devDependencies": {
     "@earendil-works/pi-coding-agent": "^0.77.0",
